@@ -18,31 +18,18 @@ The project demonstrates how cloud computing can be used to host, manage, and sc
 
 🛠️ Technologies Used
 Frontend
-
 HTML
-
 CSS
-
 Bootstrap
-
 Backend
-
 Python
-
 Flask Framework
-
 Cloud Services
-
 AWS EC2 (Application Hosting)
-
 AWS DynamoDB (Database)
-
 AWS IAM (Security and Access Management)
-
 Other Tools
-
 Git & GitHub
-
 Boto3 (AWS SDK for Python)
 
 📂 Project Structure
@@ -75,32 +62,20 @@ pip install boto3
 3️⃣ Configure AWS
 
 Create an AWS account
-
 Create a DynamoDB table
-
 Configure IAM credentials
-
 Install AWS CLI and configure
-
 aws configure
 4️⃣ Run the Application
 python app.py
-
 Then open in browser:
-
 http://127.0.0.1:5000
 ☁️ AWS Deployment Steps
-
 Launch an EC2 Instance
-
 Connect using SSH
-
 Install Python and dependencies
-
 Clone the GitHub repository
-
 Run the Flask application
-
 Configure security group to allow port 5000 or 80
 
 📊 Workflow
@@ -110,23 +85,16 @@ User → Web Interface → Flask Backend → AWS DynamoDB → Response to User
 This project is useful for:
 
 Small homemade food businesses
-
 Cloud computing learning projects
-
 AWS deployment practice
-
 Beginner Flask projects
 
 🔮 Future Enhancements
 
 Online Payment Integration
-
 Admin Dashboard
-
-Order Tracking System
-
+Order TrackingSystem
 Mobile Responsive Design
-
 Product Reviews
 
 👩‍💻 Author
