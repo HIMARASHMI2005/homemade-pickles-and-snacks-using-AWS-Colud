@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomeMade Pickles &amp; Snacks — Authentic Homemade Flavors</title>
+  <meta name="description" content="Discover traditional pickles and snacks handcrafted with love — Mango, Chicken, Prawns and more. Order fresh, delivered to you.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="landing-navbar" id="landingNav">
+    <div class="landing-navbar__inner">
+      <div class="landing-navbar__logo">
+        <div class="landing-navbar__logo-icon">HP</div>
+        <span class="landing-navbar__name">HomeMade Pickles &amp; Snacks</span>
+      </div>
+      <div class="landing-navbar__actions">
+        <a href="{{ url_for('login') }}" class="btn btn--outline btn--sm">Login</a>
+        <a href="{{ url_for('signup') }}" class="btn btn--primary btn--sm">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <span class="hero__eyebrow">✦ 100% Homemade &amp; Natural</span>
+      <h1 class="hero__title">
+        Authentic Flavors<br>
+        <span class="accent">Crafted with Love</span>
+      </h1>
+      <p class="hero__sub">
+        Discover our wide range of traditional pickles and snacks made from
+        time-honoured recipes, passed down through generations.
+      </p>
+      <div class="hero__cta">
+        <a href="{{ url_for('login') }}" class="btn btn--primary">Shop Now →</a>
+        <a href="{{ url_for('signup') }}" class="btn btn--outline">Create Account</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES STRIP ===== -->
+  <div class="features-strip">
+    <div class="features-strip__grid">
+      <div class="feature-item reveal">
+        <div class="feature-item__icon">🫙</div>
+        <div class="feature-item__title">Traditional Recipes</div>
+        <p class="feature-item__text">Age-old family recipes with authentic regional spices.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-item__icon">🌿</div>
+        <div class="feature-item__title">100% Natural</div>
+        <p class="feature-item__text">No preservatives, no artificial colours — just pure goodness.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-item__icon">🚚</div>
+        <div class="feature-item__title">Fast Delivery</div>
+        <p class="feature-item__text">Fresh pickles and snacks delivered straight to your door.</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="feature-item__icon">⭐</div>
+        <div class="feature-item__title">Premium Quality</div>
+        <p class="feature-item__text">Hand-picked ingredients for every batch we make.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer__brand">HomeMade Pickles &amp; Snacks</div>
+    <div class="footer__tagline">Preserving Traditions · Crafted with Love</div>
+    <div class="footer__divider"></div>
+    <div class="footer__copy">&copy; 2024 HomeMade Pickles &amp; Snacks. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    const nav = document.getElementById('landingNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll-reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

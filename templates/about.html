@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — HomeMade Pickles &amp; Snacks</title>
+    <meta name="description"
+        content="Learn about the story, philosophy, and family tradition behind HomeMade Pickles & Snacks.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="info-page">
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="mainNav">
+        <div class="navbar__inner">
+            <div class="navbar__brand" tabindex="0">
+                <div class="navbar__logo-icon">HP</div>
+                <div class="navbar__title">HomeMade Pickles<small>& Snacks</small></div>
+                <div class="navbar__dropdown">
+                    <a href="{{ url_for('about') }}">ℹ️&ensp;About Us</a>
+                    <a href="{{ url_for('contact') }}">📩&ensp;Contact Us</a>
+                </div>
+            </div>
+            <ul class="navbar__links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('veg_pickles') }}">Veg Pickles</a></li>
+                <li><a href="{{ url_for('non_veg_pickles') }}">Non-Veg Pickles</a></li>
+                <li><a href="{{ url_for('snacks') }}">Snacks</a></li>
+                <li><a href="{{ url_for('cart') }}" class="cart-pill">🛒 Cart <span class="cart-count"
+                            id="cart-count">0</span></a></li>
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="info-page__hero">
+        <h1 class="info-page__title heading-display">Our Story</h1>
+        <p class="info-page__sub">Three generations of authentic homemade flavours, preserved with love.</p>
+    </div>
+
+    <!-- ABOUT CONTENT -->
+    <section class="section">
+        <div class="container" style="max-width:900px;">
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:64px;"
+                class="reveal">
+                <div>
+                    <div class="section__label">Since 1995</div>
+                    <h2 class="section__title" style="-webkit-text-fill-color:initial;color:var(--green-800);">
+                        Preserving Traditions</h2>
+                    <p style="color:var(--text-muted);line-height:1.8;">
+                        HomeMade Pickles &amp; Snacks began in a small kitchen with a big dream — to share the authentic
+                        flavours of Indian pickling traditions with the world. For three generations, our family has
+                        perfected the art of pickle-making using traditional recipes and natural ingredients.
+                    </p>
+                </div>
+                <div
+                    style="background:var(--green-100);border-radius:var(--r-xl);height:280px;display:flex;align-items:center;justify-content:center;font-size:6rem;">
+                    🫙</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:64px;">
+                <div class="product-card reveal" style="padding:28px;text-align:center;">
+                    <div style="font-size:2.5rem;margin-bottom:12px;">🌿</div>
+                    <h3 style="color:var(--green-800);font-size:1.05rem;margin-bottom:8px;font-weight:700;">100% Natural
+                    </h3>
+                    <p style="font-size:.88rem;color:var(--text-muted);">No preservatives, no artificial colours — just
+                        pure, wholesome goodness.</p>
+                </div>
+                <div class="product-card reveal" style="padding:28px;text-align:center;">
+                    <div style="font-size:2.5rem;margin-bottom:12px;">☀️</div>
+                    <h3 style="color:var(--green-800);font-size:1.05rem;margin-bottom:8px;font-weight:700;">Sun-Dried
+                        Methods</h3>
+                    <p style="font-size:.88rem;color:var(--text-muted);">Traditional sun-drying of spices for authentic
+                        depth of flavour.</p>
+                </div>
+                <div class="product-card reveal" style="padding:28px;text-align:center;">
+                    <div style="font-size:2.5rem;margin-bottom:12px;">🤲</div>
+                    <h3 style="color:var(--green-800);font-size:1.05rem;margin-bottom:8px;font-weight:700;">Small
+                        Batches</h3>
+                    <p style="font-size:.88rem;color:var(--text-muted);">Handcrafted in small batches to ensure quality
+                        and consistency.</p>
+                </div>
+            </div>
+
+            <div class="reveal"
+                style="background:linear-gradient(135deg,var(--green-900),var(--green-700));border-radius:var(--r-xl);padding:48px;text-align:center;color:#fff;">
+                <h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:16px;">Our Philosophy</h2>
+                <p style="color:rgba(255,255,255,.8);max-width:560px;margin:0 auto;line-height:1.8;">
+                    We believe in preserving the authentic taste of homemade pickles without any artificial
+                    preservatives.
+                    Every jar is crafted with the same care and attention we give to food prepared for our own family.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer__brand">HomeMade Pickles &amp; Snacks</div>
+        <div class="footer__tagline">Preserving Traditions · Crafted with Love</div>
+        <div class="footer__divider"></div>
+        <div class="footer__copy">&copy; 2024 HomeMade Pickles &amp; Snacks. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + (i.qty || 1), 0);
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+</body>
+
+</html>

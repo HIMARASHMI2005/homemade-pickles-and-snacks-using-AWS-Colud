@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart — HomeMade Pickles &amp; Snacks</title>
+    <meta name="description" content="Review your cart and proceed to checkout.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* qty input */
+        .qty-input {
+            width: 44px;
+            text-align: center;
+            border: 1.5px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 4px 6px;
+            font-family: var(--font-body);
+            font-size: .92rem;
+            color: var(--text);
+            background: var(--cream-50);
+            outline: none;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: var(--green-700);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--dur);
+        }
+
+        .qty-btn:hover {
+            background: var(--green-900);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="mainNav">
+        <div class="navbar__inner">
+            <div class="navbar__brand" tabindex="0">
+                <div class="navbar__logo-icon">HP</div>
+                <div class="navbar__title">HomeMade Pickles<small>& Snacks</small></div>
+                <div class="navbar__dropdown">
+                    <a href="{{ url_for('about') }}">ℹ️&ensp;About Us</a>
+                    <a href="{{ url_for('contact') }}">📩&ensp;Contact Us</a>
+                </div>
+            </div>
+            <ul class="navbar__links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('veg_pickles') }}">Veg Pickles</a></li>
+                <li><a href="{{ url_for('non_veg_pickles') }}">Non-Veg Pickles</a></li>
+                <li><a href="{{ url_for('snacks') }}">Snacks</a></li>
+                <li><a href="{{ url_for('cart') }}" class="cart-pill active">🛒 Cart <span class="cart-count"
+                            id="cart-count">0</span></a></li>
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-body">
+        <div class="page-hero">
+            <h1 class="page-hero__title">🛒 Your Cart</h1>
+            <p class="page-hero__sub">Review your items and proceed to checkout</p>
+        </div>
+
+        <div class="cart-grid">
+            <!-- Cart items -->
+            <div>
+                <div class="cart-list" id="cartList"></div>
+                <div id="emptyCartMsg" class="cart-empty" style="display:none;">
+                    <div class="cart-empty__icon">🛒</div>
+                    <div class="cart-empty__title">Your cart is empty</div>
+                    <p style="color:var(--text-muted);margin-bottom:24px;">Add some delicious pickles and snacks to get
+                        started!</p>
+                    <a href="{{ url_for('home') }}" class="btn btn--green">Start Shopping →</a>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="cart-summary" id="cartSummary">
+                <div class="cart-summary__title">Order Summary</div>
+                <div class="cart-summary__row"><span>Subtotal</span><span id="subtotalAmt">₹0</span></div>
+                <div class="cart-summary__row"><span>Delivery</span><span
+                        style="color:var(--success);font-weight:600;">FREE</span></div>
+                <div class="cart-summary__row cart-summary__row--total"><span>Total</span><span id="totalAmt">₹0</span>
+                </div>
+                <a href="{{ url_for('checkout') }}" class="btn btn--green btn--full" id="checkoutBtn"
+                    style="margin-top:20px;border-radius:12px;padding:14px;">
+                    Proceed to Checkout →
+                </a>
+                <a href="{{ url_for('home') }}"
+                    style="display:block;text-align:center;margin-top:14px;font-size:.88rem;color:var(--text-muted);">
+                    ← Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer__brand">HomeMade Pickles &amp; Snacks</div>
+        <div class="footer__tagline">Preserving Traditions · Crafted with Love</div>
+        <div class="footer__divider"></div>
+        <div class="footer__copy">&copy; 2024 HomeMade Pickles &amp; Snacks. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function saveCart() { localStorage.setItem('cart', JSON.stringify(cart)); }
+
+        function renderCart() {
+            const list = document.getElementById('cartList');
+            const emptyMsg = document.getElementById('emptyCartMsg');
+            const summary = document.getElementById('cartSummary');
+
+            if (cart.length === 0) {
+                list.style.display = 'none';
+                emptyMsg.style.display = 'block';
+                summary.style.display = 'none';
+                document.getElementById('cart-count').textContent = '0';
+                return;
+            }
+
+            list.style.display = 'flex';
+            emptyMsg.style.display = 'none';
+            summary.style.display = 'block';
+
+            let total = 0;
+            list.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                return `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}"
+                 style="width:64px;height:64px;object-fit:cover;border-radius:10px;border:1.5px solid var(--border);"
+                 onerror="this.style.display='none'">
+            <div style="flex:1;">
+              <div class="cart-item__name">${item.name}</div>
+              <div class="cart-item__weight">${item.weight}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <button class="qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
+              <input type="number" class="qty-input" value="${item.qty}" min="1"
+                     onchange="setQty(${item.id}, this.value)" readonly>
+              <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+            </div>
+            <div class="cart-item__price">₹${itemTotal}</div>
+            <button class="cart-item__remove" onclick="removeItem(${item.id})" title="Remove">✕</button>
+          </div>`;
+            }).join('');
+
+            document.getElementById('subtotalAmt').textContent = `₹${total}`;
+            document.getElementById('totalAmt').textContent = `₹${total}`;
+            document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + i.qty, 0);
+        }
+
+        function updateQty(id, delta) {
+            cart = cart.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i);
+            saveCart(); renderCart();
+        }
+        function setQty(id, val) {
+            cart = cart.map(i => i.id === id ? { ...i, qty: Math.max(1, parseInt(val) || 1) } : i);
+            saveCart(); renderCart();
+        }
+        function removeItem(id) {
+            cart = cart.filter(i => i.id !== id);
+            saveCart(); renderCart();
+        }
+
+        renderCart();
+        window.addEventListener('storage', () => { cart = JSON.parse(localStorage.getItem('cart')) || []; renderCart(); });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us — HomeMade Pickles &amp; Snacks</title>
+    <meta name="description" content="Get in touch with HomeMade Pickles & Snacks for inquiries, orders, or feedback.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="info-page">
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="mainNav">
+        <div class="navbar__inner">
+            <div class="navbar__brand" tabindex="0">
+                <div class="navbar__logo-icon">HP</div>
+                <div class="navbar__title">HomeMade Pickles<small>& Snacks</small></div>
+                <div class="navbar__dropdown">
+                    <a href="{{ url_for('about') }}">ℹ️&ensp;About Us</a>
+                    <a href="{{ url_for('contact') }}">📩&ensp;Contact Us</a>
+                </div>
+            </div>
+            <ul class="navbar__links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('veg_pickles') }}">Veg Pickles</a></li>
+                <li><a href="{{ url_for('non_veg_pickles') }}">Non-Veg Pickles</a></li>
+                <li><a href="{{ url_for('snacks') }}">Snacks</a></li>
+                <li><a href="{{ url_for('cart') }}" class="cart-pill">🛒 Cart <span class="cart-count"
+                            id="cart-count">0</span></a></li>
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="info-page__hero">
+        <h1 class="info-page__title heading-display">Get in Touch</h1>
+        <p class="info-page__sub">Have a question or a special order? We'd love to hear from you.</p>
+    </div>
+
+    <!-- CONTACT CONTENT -->
+    <section class="section">
+        <div class="container" style="max-width:960px;">
+
+            <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:40px;align-items:start;">
+
+                <!-- Info Cards -->
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div class="product-card reveal" style="padding:24px;">
+                        <div style="font-size:1.8rem;margin-bottom:10px;">📍</div>
+                        <h3 style="color:var(--green-800);font-weight:700;margin-bottom:6px;">Visit Us</h3>
+                        <p style="font-size:.9rem;color:var(--text-muted);line-height:1.7;">123 Spice Lane<br>Hyderabad,
+                            Telangana<br>India — 500001</p>
+                    </div>
+                    <div class="product-card reveal" style="padding:24px;">
+                        <div style="font-size:1.8rem;margin-bottom:10px;">📞</div>
+                        <h3 style="color:var(--green-800);font-weight:700;margin-bottom:6px;">Call Us</h3>
+                        <p style="font-size:.9rem;color:var(--text-muted);line-height:1.7;">+91 98765 43210<br>Mon–Sat:
+                            9AM – 7PM</p>
+                    </div>
+                    <div class="product-card reveal" style="padding:24px;">
+                        <div style="font-size:1.8rem;margin-bottom:10px;">📧</div>
+                        <h3 style="color:var(--green-800);font-weight:700;margin-bottom:6px;">Email Us</h3>
+                        <p style="font-size:.9rem;color:var(--text-muted);">contact@homemadepickles.in</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrap reveal">
+                    <h2
+                        style="font-family:var(--font-display);color:var(--green-800);font-size:1.6rem;margin-bottom:24px;">
+                        Send a Message</h2>
+                    <form style="display:flex;flex-direction:column;gap:18px;" onsubmit="handleContact(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="cname">Your Name</label>
+                            <input id="cname" class="form-input" type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cemail">Email Address</label>
+                            <input id="cemail" class="form-input" type="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="cmessage">Your Message</label>
+                            <textarea id="cmessage" class="form-textarea" rows="5"
+                                placeholder="Tell us how we can help..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--green btn--full" style="border-radius:12px;padding:14px;"
+                            id="sendBtn">
+                            Send Message →
+                        </button>
+                        <div id="contactSuccess" class="alert alert--success" style="display:none;">
+                            ✓ Message sent! We'll get back to you soon.
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer__brand">HomeMade Pickles &amp; Snacks</div>
+        <div class="footer__tagline">Preserving Traditions · Crafted with Love</div>
+        <div class="footer__divider"></div>
+        <div class="footer__copy">&copy; 2024 HomeMade Pickles &amp; Snacks. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + (i.qty || 1), 0);
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        function handleContact(e) {
+            e.preventDefault();
+            document.getElementById('sendBtn').textContent = 'Sending…';
+            setTimeout(() => {
+                document.getElementById('contactSuccess').style.display = 'flex';
+                document.getElementById('sendBtn').textContent = 'Send Message →';
+                e.target.reset();
+            }, 900);
+        }
+    </script>
+</body>
+
+</html>

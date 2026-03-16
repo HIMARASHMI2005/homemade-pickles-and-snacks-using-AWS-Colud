@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — HomeMade Pickles &amp; Snacks</title>
+    <meta name="description" content="Sign in to your HomeMade Pickles &amp; Snacks account to browse and order.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="auth-page">
+
+        <!-- LEFT PANEL -->
+        <div class="auth-page__left">
+            <div class="auth-page__left-content">
+                <div class="auth-page__brand-icon">HP</div>
+                <h1 class="auth-page__brand-name heading-display">HomeMade Pickles &amp; Snacks</h1>
+                <p class="auth-page__brand-tagline">
+                    Authentic homemade flavours crafted with love and passed down through generations.
+                </p>
+                <div class="auth-features">
+                    <div class="auth-feature">
+                        <div class="auth-feature__icon">🫙</div>
+                        <span class="auth-feature__text">Traditional recipes with authentic regional spices</span>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="auth-feature__icon">🌿</div>
+                        <span class="auth-feature__text">No preservatives — 100% natural ingredients</span>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="auth-feature__icon">🚚</div>
+                        <span class="auth-feature__text">Fresh delivery straight to your door</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="auth-page__right">
+            <div class="auth-card">
+                <h2 class="auth-card__title">Welcome back 👋</h2>
+                <p class="auth-card__sub">Sign in to continue shopping</p>
+
+                {% if error %}
+                <div class="alert alert--error">⚠ {{ error }}</div>
+                {% endif %}
+
+                <form action="{{ url_for('login') }}" method="POST" id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <input id="username" class="form-input" type="text" name="username"
+                            placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input id="password" class="form-input" type="password" name="password"
+                            placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn--green btn--full" style="border-radius:12px;padding:14px;">
+                        Sign In →
+                    </button>
+                </form>
+
+                <p class="auth-link">
+                    Don't have an account? <a href="{{ url_for('signup') }}">Create one</a>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

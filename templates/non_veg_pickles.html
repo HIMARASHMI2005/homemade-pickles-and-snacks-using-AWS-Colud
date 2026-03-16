@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Non-Veg Pickles — HomeMade Pickles &amp; Snacks</title>
+    <meta name="description"
+        content="Shop our premium non-vegetarian pickles — Chicken, Fish, Mutton, Gongura Prawns and more.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="mainNav">
+        <div class="navbar__inner">
+            <div class="navbar__brand" tabindex="0">
+                <div class="navbar__logo-icon">HP</div>
+                <div class="navbar__title">HomeMade Pickles<small>& Snacks</small></div>
+                <div class="navbar__dropdown">
+                    <a href="{{ url_for('about') }}">ℹ️&ensp;About Us</a>
+                    <a href="{{ url_for('contact') }}">📩&ensp;Contact Us</a>
+                </div>
+            </div>
+            <ul class="navbar__links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('veg_pickles') }}">Veg Pickles</a></li>
+                <li><a href="{{ url_for('non_veg_pickles') }}" class="active">Non-Veg Pickles</a></li>
+                <li><a href="{{ url_for('snacks') }}">Snacks</a></li>
+                <li><a href="{{ url_for('cart') }}" class="cart-pill">🛒 Cart <span class="cart-count"
+                            id="cart-count">0</span></a></li>
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-body">
+        <div class="page-hero">
+            <h1 class="page-hero__title">🍗 Non-Vegetarian Pickles</h1>
+            <p class="page-hero__sub">Bold, rich flavours — slow-cooked with traditional spices</p>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="product-grid">
+
+                    {% set items = [
+                    ('Chicken Pickle', 'chicken-boneless-pickle.jpg', 'Slow-cooked to perfection with mustard seeds and
+                    aromatic spices. Made from tender, juicy boneless chicken.', [('250g', 600), ('500g', 1200), ('1kg',
+                    1800)], 'chicken-pickle', '🔥 Hot Pick'),
+                    ('Fish Pickle', 'fish pickle.JPG', 'Tangy and spicy fish pickle with succulent fish pieces infused
+                    with aromatic spices and mustard seeds.', [('250g', 200), ('500g', 400), ('1kg', 800)],
+                    'fish-pickle', ''),
+                    ('Gongura Mutton', 'GonguraMutton-1.jpg', 'Rich and tangy mutton slow-cooked with fresh gongura
+                    leaves and bold aromatic spices — a classic Andhra delight.', [('250g', 400), ('500g', 800), ('1kg',
+                    1600)], 'gongura-mutton', '⭐ Specialty'),
+                    ('Mutton Pickle', 'mutton pickle.jpg', 'Spicy and flavorful mutton marinated in traditional spices
+                    and mustard seeds. Rich, savory taste in every bite.', [('250g', 400), ('500g', 800), ('1kg',
+                    1600)], 'mutton-pickle', ''),
+                    ('Gongura Prawns', 'prawns_gongura.jpg', 'Succulent prawns and fresh gongura leaves slow-cooked with
+                    aromatic spices for a rich and flavorful taste.', [('250g', 600), ('500g', 1200), ('1kg', 1800)],
+                    'gongura-prawns', '🌟 Popular'),
+                    ('Gongura Chicken Pickle', 'gongurachicken.jpg', 'Tender chicken with fresh gongura leaves, cooked
+                    with aromatic spices for a tangy and spicy pickle.', [('250g', 350), ('500g', 700), ('1kg', 1050)],
+                    'gongura-chicken', '')
+                    ] %}
+
+                    {% for name, img, desc, weights, pid, badge in items %}
+                    <div class="product-card reveal">
+                        <div class="product-card__img-wrap">
+                            <img src="{{ url_for('static', filename='images/' + img) }}" alt="{{ name }}"
+                                class="product-card__img">
+                            {% if badge %}<span class="product-card__badge">{{ badge }}</span>{% endif %}
+                        </div>
+                        <div class="product-card__body">
+                            <div class="product-card__name">{{ name }}</div>
+                            <p class="product-card__desc">{{ desc }}</p>
+                            <div class="weight-selector" id="ws-{{ pid }}">
+                                {% for w, p in weights %}
+                                <button class="weight-btn {% if loop.first %}active{% endif %}" data-weight="{{ w }}"
+                                    data-price="{{ p }}" data-pid="{{ pid }}" onclick="selectWeight(this)">{{ w
+                                    }}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="product-card__footer">
+                            <div class="product-card__price" id="price-{{ pid }}">
+                                ₹{{ weights[0][1] }} <span>/ {{ weights[0][0] }}</span>
+                            </div>
+                            <button class="btn-add-cart"
+                                onclick="addToCart('{{ name }}', '{{ pid }}', '{{ url_for('static', filename='images/' + img) }}')">
+                                🛒 Add
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer__brand">HomeMade Pickles &amp; Snacks</div>
+        <div class="footer__tagline">Preserving Traditions · Crafted with Love</div>
+        <div class="footer__divider"></div>
+        <div class="footer__copy">&copy; 2024 HomeMade Pickles &amp; Snacks. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+        const selected = {};
+        function selectWeight(btn) {
+            const pid = btn.dataset.pid;
+            document.querySelectorAll(`#ws-${pid} .weight-btn`).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selected[pid] = { weight: btn.dataset.weight, price: parseInt(btn.dataset.price) };
+            document.getElementById(`price-${pid}`).innerHTML = `₹${btn.dataset.price} <span>/ ${btn.dataset.weight}</span>`;
+        }
+        document.querySelectorAll('.weight-btn.active').forEach(btn => {
+            selected[btn.dataset.pid] = { weight: btn.dataset.weight, price: parseInt(btn.dataset.price) };
+        });
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function addToCart(name, pid, image) {
+            const sel = selected[pid] || { weight: '250g', price: 0 };
+            const existing = cart.find(i => i.name === name && i.weight === sel.weight);
+            if (existing) existing.qty++;
+            else cart.push({ id: Date.now(), name, weight: sel.weight, price: sel.price, image, qty: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            const btn = event.currentTarget;
+            btn.textContent = '✓ Added!';
+            btn.style.background = 'var(--success)';
+            setTimeout(() => { btn.innerHTML = '🛒 Add'; btn.style.background = ''; }, 1200);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + i.qty, 0);
+        }
+        updateCartCount();
+        window.addEventListener('storage', () => { cart = JSON.parse(localStorage.getItem('cart')) || []; updateCartCount(); });
+
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+</body>
+
+</html>

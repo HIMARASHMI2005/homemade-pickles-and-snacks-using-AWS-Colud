@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks — HomeMade Pickles &amp; Snacks</title>
+    <meta name="description" content="Shop our handcrafted snacks — Banana Chips, Laddus, Chekkalu and more.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar" id="mainNav">
+        <div class="navbar__inner">
+            <div class="navbar__brand" tabindex="0">
+                <div class="navbar__logo-icon">HP</div>
+                <div class="navbar__title">HomeMade Pickles<small>& Snacks</small></div>
+                <div class="navbar__dropdown">
+                    <a href="{{ url_for('about') }}">ℹ️&ensp;About Us</a>
+                    <a href="{{ url_for('contact') }}">📩&ensp;Contact Us</a>
+                </div>
+            </div>
+            <ul class="navbar__links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('veg_pickles') }}">Veg Pickles</a></li>
+                <li><a href="{{ url_for('non_veg_pickles') }}">Non-Veg Pickles</a></li>
+                <li><a href="{{ url_for('snacks') }}" class="active">Snacks</a></li>
+                <li><a href="{{ url_for('cart') }}" class="cart-pill">🛒 Cart <span class="cart-count"
+                            id="cart-count">0</span></a></li>
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="page-body">
+        <div class="page-hero">
+            <h1 class="page-hero__title">🍿 Homemade Snacks</h1>
+            <p class="page-hero__sub">Crunchy, wholesome, and crafted with traditional recipes</p>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <div class="product-grid">
+
+                    {% set items = [
+                    ('Banana Chips', 'Banana1.jpg', 'Thinly sliced raw bananas, lightly salted and fried to golden
+                    perfection. Gluten-free and vegan.', [('250g', 300), ('500g', 600), ('1kg', 800)], 'banana-chips',
+                    '☀️ Summer Hit'),
+                    ('Crispy Aam-Papad', 'Aam-Papad.jpg', 'Sweet &amp; tangy mango leather, sun-dried to perfection.
+                    Kids\' favourite treat with no added preservatives.', [('250g', 150), ('500g', 300), ('1kg', 600)],
+                    'aam-papad', '🥭 Mango Special'),
+                    ('Crispy Chekka Pakodi', 'Chekka Pakodi.jpg', 'Traditional crispy rice crackers seasoned with cumin
+                    and sesame seeds — a crunchy snack anytime.', [('250g', 50), ('500g', 100), ('1kg', 200)],
+                    'chekka-pakodi', ''),
+                    ('Boondhi Acchu', 'Boondhi.jpg', 'Tiny, crispy gram flour pearls tossed with selected spices.
+                    Perfect with evening tea.', [('250g', 300), ('500g', 600), ('1kg', 900)], 'boondhi-acchu', ''),
+                    ('Chekkalu', 'Chekkalu.jpg', 'Classic rice crackers deep-fried to a golden crisp with sesame and
+                    cumin. A timeless Andhra snack.', [('250g', 350), ('500g', 700), ('1kg', 1000)], 'chekkalu', '⭐
+                    Classic'),
+                    ('Ragi Laddu', 'Ragi Laddu.jpg', 'Wholesome finger millet laddus sweetened with jaggery and
+                    flavoured with cardamom. Nutritious &amp; delicious.', [('250g', 350), ('500g', 700), ('1kg',
+                    1000)], 'ragi-laddu', '💪 Healthy'),
+                    ('Dry Fruit Laddu', 'Dry Fruit Laddu.jpg', 'Premium dry fruit laddus packed with cashews, almonds,
+                    raisins, and dates. A luxury treat for all occasions.', [('250g', 500), ('500g', 1000), ('1kg',
+                    1500)], 'dry-fruit-laddu', '👑 Premium'),
+                    ('Kara Boondi', 'Kara Boondi.jpg', 'Spicy crispy boondi tossed with curry leaves and peanuts. The
+                    ultimate savory munchie!', [('250g', 250), ('500g', 500), ('1kg', 750)], 'kara-boondi', '🌶️
+                    Spicy'),
+                    ('Gavvalu', 'Gavvalu.jpg', 'Crunchy shell-shaped mini sweets made from wheat flour and coated in
+                    sugar syrup. A festive favourite.', [('250g', 250), ('500g', 500), ('1kg', 750)], 'gavvalu', ''),
+                    ('Kaju Chikki', 'Kaju Chikki.jpg', 'Crunchy cashew brittle made with jaggery — a nutty, sweet
+                    indulgence for everyone.', [('250g', 250), ('500g', 500), ('1kg', 750)], 'kaju-chikki', ''),
+                    ('PeaNut Chikki', 'Peanut Chikki.jpg', 'Classic peanut brittle with jaggery. Crunchy, sweet, and
+                    full of earthy peanut goodness.', [('250g', 250), ('500g', 500), ('1kg', 750)], 'peanut-chikki', '🥜
+                    Popular'),
+                    ('Rava Laddu', 'Rava Laddu.jpg', 'Semolina laddus prepared with ghee, sugar, and cardamom. Soft,
+                    melt-in-mouth homemade sweets.', [('250g', 250), ('500g', 500), ('1kg', 750)], 'rava-laddu', '')
+                    ] %}
+
+                    {% for name, img, desc, weights, pid, badge in items %}
+                    <div class="product-card reveal">
+                        <div class="product-card__img-wrap">
+                            <img src="{{ url_for('static', filename='images/' + img) }}" alt="{{ name }}"
+                                class="product-card__img"
+                                onerror="this.style.display='none';this.parentElement.innerHTML+='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:3rem;\'>🍿</div>'">
+                            {% if badge %}<span class="product-card__badge">{{ badge }}</span>{% endif %}
+                        </div>
+                        <div class="product-card__body">
+                            <div class="product-card__name">{{ name }}</div>
+                            <p class="product-card__desc">{{ desc }}</p>
+                            <div class="weight-selector" id="ws-{{ pid }}">
+                                {% for w, p in weights %}
+                                <button class="weight-btn {% if loop.first %}active{% endif %}" data-weight="{{ w }}"
+                                    data-price="{{ p }}" data-pid="{{ pid }}" onclick="selectWeight(this)">{{ w
+                                    }}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="product-card__footer">
+                            <div class="product-card__price" id="price-{{ pid }}">
+                                ₹{{ weights[0][1] }} <span>/ {{ weights[0][0] }}</span>
+                            </div>
+                            <button class="btn-add-cart"
+                                onclick="addToCart('{{ name }}', '{{ pid }}', '{{ url_for('static', filename='images/' + img) }}')">
+                                🛒 Add
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer__brand">HomeMade Pickles &amp; Snacks</div>
+        <div class="footer__tagline">Preserving Traditions · Crafted with Love</div>
+        <div class="footer__divider"></div>
+        <div class="footer__copy">&copy; 2024 HomeMade Pickles &amp; Snacks. All rights reserved.</div>
+    </footer>
+
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+        const selected = {};
+        function selectWeight(btn) {
+            const pid = btn.dataset.pid;
+            document.querySelectorAll(`#ws-${pid} .weight-btn`).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selected[pid] = { weight: btn.dataset.weight, price: parseInt(btn.dataset.price) };
+            document.getElementById(`price-${pid}`).innerHTML = `₹${btn.dataset.price} <span>/ ${btn.dataset.weight}</span>`;
+        }
+        document.querySelectorAll('.weight-btn.active').forEach(btn => {
+            selected[btn.dataset.pid] = { weight: btn.dataset.weight, price: parseInt(btn.dataset.price) };
+        });
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function addToCart(name, pid, image) {
+            const sel = selected[pid] || { weight: '250g', price: 0 };
+            const existing = cart.find(i => i.name === name && i.weight === sel.weight);
+            if (existing) existing.qty++;
+            else cart.push({ id: Date.now(), name, weight: sel.weight, price: sel.price, image, qty: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            const btn = event.currentTarget;
+            btn.textContent = '✓ Added!';
+            btn.style.background = 'var(--success)';
+            setTimeout(() => { btn.innerHTML = '🛒 Add'; btn.style.background = ''; }, 1200);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.reduce((s, i) => s + i.qty, 0);
+        }
+        updateCartCount();
+        window.addEventListener('storage', () => { cart = JSON.parse(localStorage.getItem('cart')) || []; updateCartCount(); });
+
+        const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+</body>
+
+</html>
