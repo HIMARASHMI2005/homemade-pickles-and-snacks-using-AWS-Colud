@@ -52,6 +52,8 @@ Homemade-pickles-snacks-AWS_cloud_project
 │   └── images
 │
 └── README.md
+
+
 ⚙️ Installation & Setup
 1️⃣ Clone the Repository
 git clone https://github.com/your-username/Homemade-pickles-snacks-AWS_cloud_project.git
