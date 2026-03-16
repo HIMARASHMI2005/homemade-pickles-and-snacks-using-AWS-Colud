@@ -35,32 +35,53 @@ Boto3 (AWS SDK for Python)
 📂 Project Structure
 Homemade-pickles-snacks-AWS_cloud_project
 │
+
 ├── app.py
+
 │
+
 ├── templates
+
 │   ├── index.html
+
 │   ├── home.html
+
 │   ├── login.html
+
 │   ├── signup.html
+
 │   ├── veg_pickles.html
+
 │   ├── non_veg_pickles.html
+
 │   ├── snacks.html
+
 │   ├── cart.html
+
 │   └── checkout.html
+
 │
+
 ├── static
+
 │   └── images
+
 │
+
 └── README.md
 
 
+
 ⚙️ Installation & Setup
+
 1️⃣ Clone the Repository
 git clone https://github.com/your-username/Homemade-pickles-snacks-AWS_cloud_project.git
 cd Homemade-pickles-snacks-AWS_cloud_project
+
 2️⃣ Install Required Libraries
 pip install flask
 pip install boto3
+
 3️⃣ Configure AWS
 
 Create an AWS account
@@ -68,10 +89,12 @@ Create a DynamoDB table
 Configure IAM credentials
 Install AWS CLI and configure
 aws configure
+
 4️⃣ Run the Application
 python app.py
 Then open in browser:
 http://127.0.0.1:5000
+
 ☁️ AWS Deployment Steps
 Launch an EC2 Instance
 Connect using SSH
